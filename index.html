@@ -60,18 +60,26 @@
       }
 
       /* Real OPTT login hidden underneath */
-      #optt-frame {
+      /* #optt-frame {
         position: absolute;
         top: 0;
         left: 0;
         width: 900px;
         height: 550px;
         border: none;
-        opacity: 0.01; /* nearly invisible but still clickable */
-        pointer-events: auto; /* clicks pass through to iframe */
+        opacity: 0.01;  nearly invisible but still clickable
+        pointer-events: auto; clicks pass through to iframe 
         z-index: 1;
+      } */
+      #optt-frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 900px;
+        height: 550px;
+        border: 2px solid red;
+        opacity: 1; /* was 0.01 */
       }
-
       /* Decoy UI drawn above iframe */
       #overlay-ui {
         position: absolute;
